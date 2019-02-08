@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+    - name: Install the 'Development Tools' package group
+      dnf:
+        name: '@Development tools'
+        state: present
