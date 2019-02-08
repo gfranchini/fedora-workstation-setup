@@ -4,7 +4,7 @@
       dnf:
         name: '@Development tools'
         state: present
-		- name: Install Vim                                                                                 │
+    - name: Install Vim                                                                                 │
       dnf:                                                                                              │
         name: vim                                                                                       │
         state: present                                                                                  │
@@ -28,7 +28,7 @@
       dnf:                                                                                              │
         name: https://downloads.slack-edge.com/linux_releases/slack-3.3.7-0.1.fc21.x86_64.rpm           │
         state: present      
-		- name: Install Fedora Workstation repos                                                            │
+    - name: Install Fedora Workstation repos                                                            │
       dnf:                                                                                              │
         name: fedora-workstation-repositories                                                           │
         state: present                                                                                  │
