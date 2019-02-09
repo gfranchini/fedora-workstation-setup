@@ -4,36 +4,36 @@
       dnf:
         name: '@Development tools'
         state: present
-    - name: Install Vim                                                                                 │
-      dnf:                                                                                              │
-        name: vim                                                                                       │
-        state: present                                                                                  │
-    - name: Install Git                                                                                 │
-      dnf:                                                                                              │
-        name: git                                                                                       │
-        state: present                                                                                  │
-    - name: Install wget                                                                                │
-      dnf:                                                                                              │
-        name: wget                                                                                      │
-        state: present                                                                                  │
-    - name: Install docker                                                                              │
-      dnf:                                                                                              │
-        name: docker                                                                                    │
-        state: present                                                                                  │
-    - name: Install Virtual Machine Manager                                                             │
-      dnf:                                                                                              │
-        name: virt-manager                                                                              │
-        state: present                                                                                  │
-    - name: Download slack package and install                                                          │
-      dnf:                                                                                              │
-        name: https://downloads.slack-edge.com/linux_releases/slack-3.3.7-0.1.fc21.x86_64.rpm           │
-        state: present      
-    - name: Install Fedora Workstation repos                                                            │
-      dnf:                                                                                              │
-        name: fedora-workstation-repositories                                                           │
-        state: present                                                                                  │
-    - name: Install Google Chrome                                                                       │
-      dnf:                                                                                              │
-        name: google-chrome-stable                                                                      │
+    - name: Install Vim
+      dnf:
+        name: vim
+        state: present
+    - name: Install Git                                                                                 
+      dnf:
+        name: git
+        state: present
+    - name: Install wget
+      dnf:
+        name: wget
+        state: present
+    - name: Install docker
+      dnf:
+        name: docker
+        state: present
+    - name: Install Virtual Machine Manager
+      dnf:
+        name: virt-manager
+        state: present
+    - name: Download slack package and install
+      dnf:
+        name: https://downloads.slack-edge.com/linux_releases/slack-3.3.7-0.1.fc21.x86_64.rpm
+        state: present
+    - name: Install Fedora Workstation repos
+      dnf:
+        name: fedora-workstation-repositories
+        state: present
+    - name: Install Google Chrome
+      dnf:
+        name: google-chrome-stable
         enablerepo: google-chrome
-        state: present 
+        state: present
