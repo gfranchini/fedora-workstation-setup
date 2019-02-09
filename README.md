@@ -1,19 +1,23 @@
 # Fedora WorkStation Setup
 
-This repository is intended to be for my personal Fedora setup.
+This repository is intended to be for my personal Fedora WorkStation setup.
 
 ## Useage
-Host machine must have Ansible installed.
+Host machine _must_ have Ansible installed.
 
-`# dnf install -y ansible`
+`$ sudo dnf install -y ansible`
 
-`# ansible-playbook post_install.yaml`
+`$ ansible-playbook post_install.yaml`
 
 ## Testing
 
 For a quick and dirty test, I've decided to use a Fedora 29 docker image to run my ansible script. If there are no errors in the container, it should work on a physical or virtual machine.
 
 `$ docker build -t ansible-test .`
+
+or you can mount local directory to docker container and run as you edit
+
+`$ docker run -it --rm -v ~/Code/ansible/fedora-workstation-setup:/ansible --name ansible-test fedora`
 
 
 ## To Do:

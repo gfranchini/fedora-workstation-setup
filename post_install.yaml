@@ -4,11 +4,15 @@
       dnf:
         name: '@Development tools'
         state: present
+    - name: Install the 'Virtualization Tools' package group
+      dnf:
+        name: '@virtualization'
+        state: present
     - name: Install Vim
       dnf:
         name: vim
         state: present
-    - name: Install Git                                                                                 
+    - name: Install Git
       dnf:
         name: git
         state: present
@@ -16,7 +20,7 @@
       dnf:
         name: wget
         state: present
-    - name: Install docker
+    - name: Install docker #Add users to docker group
       dnf:
         name: docker
         state: present
@@ -36,4 +40,12 @@
       dnf:
         name: google-chrome-stable
         enablerepo: google-chrome
+        state: present
+    - name: Install Atom
+      dnf:
+        name: https://github.com/atom/atom/releases/download/v1.34.0/atom.x86_64.rpm
+        state: present
+    - name: Install zsh # Still need to configure ZSH for users
+      dnf:
+        name: zsh
         state: present
