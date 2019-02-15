@@ -1,4 +1,5 @@
 - hosts: localhost
+  gather_facts: false
   tasks:
     - name: Install the 'Development Tools' package group
       dnf:
@@ -20,7 +21,7 @@
       dnf:
         name: wget
         state: present
-    - name: Install docker #Add users to docker group
+    - name: Install docker #Remember to add users to docker group
       dnf:
         name: docker
         state: present
@@ -49,3 +50,11 @@
       dnf:
         name: zsh
         state: present
+    - name: Install RPM Fusion Repositories
+      dnf:
+        name: https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-29.noarch.rpm, https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-29.noarch.rpm
+        state: present
+    - name: Install Spotify
+      dnf:
+        name: lpf-spotify-client
+        state: latest
