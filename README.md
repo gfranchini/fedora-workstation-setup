@@ -1,13 +1,14 @@
 # Fedora WorkStation Setup
 
 This repository is intended to be for my personal Fedora WorkStation setup.
-
-## Useage
+## Prerequisites
 Host machine _must_ have Ansible installed.
 
 `$ sudo dnf install -y ansible git vim`
 
-`$ ansible-playbook post_install.yaml`
+## Useage
+
+`$ ansible-playbook main.yml  --extra-vars @bootstrap.yml`
 
 ## Testing
 

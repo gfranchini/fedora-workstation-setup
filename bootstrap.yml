@@ -1,0 +1,29 @@
+# Defining a bootstrap
+basic_setup: true
+basic_updates: true
+basic_config: true
+get_repos: true
+sys_user: gfranchini
+sys_user_email: "gc@digistro.com"
+git_nickname: Giancarlo Franchini
+default_identity_key_file: id_rsa
+
+dnf_basic:
+  - ansible
+  - git
+  - htop
+  - tree
+  - jq
+  - vim
+  - wget
+  - docker
+  - '@Development tools'
+  - '@virtualization'
+  - virt-manager
+  - fedora-workstation-repositories
+
+dnf_extras:
+  - gnome-tweak-tool
+  - google-chrome-stable
+  # - lpf-spotify-client
+  - zsh

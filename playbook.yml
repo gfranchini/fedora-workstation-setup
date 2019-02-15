@@ -1,0 +1,122 @@
+- hosts: localhost
+  connection: local
+  become: true
+  gather_facts: false
+
+########### BASIC CONFIGURATION (basic_setup) ######################################
+  tasks:
+    - block:
+      - name: Ensure the local system has a proper hostname
+        hostname:
+          name: "fedora"
+
+      - name: Add management public key to target systems
+        authorized_key:
+          user: root
+          key: "{{ public_key_value }}"
+        when: public_key_value is defined
+
+      - name: Ensure there is an .ssh directory
+        file:
+          path: "/home/{{ sys_user }}/.ssh"
+          state: directory
+          owner: "{{ sys_user }}"
+          group: "{{ sys_user }}"
+          mode: 0700
+
+      # - name: Ensure local system ssh-configuration is up to date
+      #   template:
+      #     dest: "/home/{{ sys_user }}/.ssh/config" # Double check this destinatin directory
+      #     src: ../templates/ssh-config.j2
+      #     owner: "{{ sys_user }}"
+      #     group: "{{ sys_user }}"
+      #     mode: 0644
+
+      # - name: Import the encrypted private keys as a variable
+      #   include_vars: ../vars/vault/secrets.yaml
+      #   no_log: true
+      #
+      # - name: Make sure our private keys are on the system
+      #   copy:
+      #     content: "{{ item.value.key_value }}"
+      #     dest: "/home/{{ sys_user }}/.ssh/{{ item.value.key_name }}"
+      #     owner: "{{ sys_user }}"
+      #     group: "{{ sys_user }}"
+      #     mode: 0600
+      #   no_log: true
+      #   with_dict: "{{ keys }}"
+
+      when: basic_setup
+
+
+
+  ########### INITIAL PACKAGE UPDATES AND INSTALLS (basic_updates) ###################
+    - block:
+      - name: Make sure base-system packages are up to date
+        dnf:
+          name: "*"
+          state: latest
+      - name: Restart the machine
+        shell: sleep 2 && shutdown -r now "Ansible triggered restart"
+        async: 1
+        poll: 0
+        ignore_errors: yes
+        when: reboot and system_update.changed
+      - name: Make sure local system has basic packages installed and up to date
+        dnf:
+          name: "{{ dnf_basic }}"
+          state: latest
+        with_items: "{{ dnf_basic }}"
+      - name: Ensure extra RPM repos are up to date
+        copy:
+          src: "{{ item }}"
+          dest: /etc/yum.repos.d/
+          owner: root
+          group: root
+          mode: 0644
+        with_fileglob: ../files/yum-repos/*.repo
+
+      # - name: Install RPM Fusion Repositories
+      #   dnf:
+      #     name: https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-29.noarch.rpm, https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-29.noarch.rpm
+      #     state: present
+      # - name: Install Spotify
+      #   dnf:
+      #     name: lpf-spotify-client
+      #     state: latest
+      - name: Make sure local system has basic packages installed and up to date
+        dnf:
+          name: "{{ dnf_basic }}"
+          state: latest
+      - name: Make sure local system has additional third-party packages present and up to date
+        dnf:
+          name: "{{ dnf_extras }}"
+          state: latest
+
+      when: basic_updates
+
+########### CONFIGURE PROFILES AND OTHER ODDITIES ABOUT THIS SYSTEM (basic_config)
+    - block:
+      - name: Ensure there is a docker group
+        group:
+          name: docker
+
+      - name: Ensure there is a libvirt group
+        group:
+          name: libvirt
+
+      - name: Ensure the system user belongs to the docker, libvirt, and wheel groups
+        user:
+          name: "{{ sys_user }}"
+          groups: docker,libvirt, wheel
+          append: yes
+          state: present
+
+      - name: Make sure the Git profile is up to date
+        template:
+          dest: "/home/{{ sys_user }}/.gitconfig"
+          src: ../templates/gitconfig.j2
+          owner: "{{ sys_user }}"
+          group: "{{ sys_user }}"
+
+      when: basic_config
